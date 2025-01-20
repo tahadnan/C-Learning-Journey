@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdbool.h>
 
+// Functions Prototypes
 bool valueInArray(int val, int *arr, size_t n);
 void printTicTacToeBoard(char tic_tac_toe_board[3][3]);
 char horizontalCheck(char tic_tac_toe_board[3][3]);
@@ -15,6 +16,9 @@ int validateInput(int input);
 int readColumn(int row, int column);
 int verifyColumnLegibility(char tic_tac_toe_board[3][3], int column);
 
+// Defining needed Functions
+
+// A function to check if a certain value is in a certain array
 bool valueInArray(int val, int *arr, size_t n){
     for(size_t i = 0; i < n; i++) {
         if(arr[i] == val)
@@ -23,6 +27,7 @@ bool valueInArray(int val, int *arr, size_t n){
     return false;
 }
 
+// A function to print the Game Board  
 void printTicTacToeBoard(char tic_tac_toe_board[3][3]){
     for (int i = 0; i < 3; i++) {
         printf("\t\t\t %c | %c | %c \n", tic_tac_toe_board[i][0], tic_tac_toe_board[i][1], tic_tac_toe_board[i][2]); 
@@ -32,6 +37,7 @@ void printTicTacToeBoard(char tic_tac_toe_board[3][3]){
     }
 }
 
+// A function to perform a horizontal check, for our game we need three horizontal checks 
 char horizontalCheck(char tic_tac_toe_board[3][3]){
     for (int i = 0; i < 3; i++) {
         if (tic_tac_toe_board[i][0] == tic_tac_toe_board[i][1] && tic_tac_toe_board[i][1] == tic_tac_toe_board[i][2]) {
@@ -41,6 +47,7 @@ char horizontalCheck(char tic_tac_toe_board[3][3]){
     return 'N';
 }
 
+// A function to perform a vertical check, for our game we need three vertical checks 
 char verticalCheck(char tic_tac_toe_board[3][3]){
     for (int i = 0; i < 3; i++) {
         if (tic_tac_toe_board[0][i] == tic_tac_toe_board[1][i] && tic_tac_toe_board[1][i] == tic_tac_toe_board[2][i]) {
@@ -50,6 +57,7 @@ char verticalCheck(char tic_tac_toe_board[3][3]){
     return 'N';
 }
 
+// A function to perform a diagonal check, for our game we need two diagonal checks 
 char diagonalCheck(char tic_tac_toe_board[3][3]){
     if (tic_tac_toe_board[0][0] == tic_tac_toe_board[1][1] && tic_tac_toe_board[1][1] == tic_tac_toe_board[2][2]) {
         return tic_tac_toe_board[0][0];
@@ -61,6 +69,7 @@ char diagonalCheck(char tic_tac_toe_board[3][3]){
     return 'N';
 }
 
+// A function that will be run PERIODICALLY on each turn, to determine if there is a winner
 char checkWinner(char tic_tac_toe_board[3][3]){
     char vertical_check = verticalCheck(tic_tac_toe_board);
     char horizontal_check = horizontalCheck(tic_tac_toe_board);
@@ -79,6 +88,7 @@ char checkWinner(char tic_tac_toe_board[3][3]){
     return 'N';
 }
 
+// A function to validate user input, ensuring that it respects the type and range
 int validateInput(int input){
     // printf("From validateInput() input = %d", input);
     if (input >= 1 && input <= 9) {
@@ -87,6 +97,7 @@ int validateInput(int input){
     return -1;
 }
 
+// A function that translates the user input to array index
 int readColumn(int row, int column){
     if (row == 0) {
         column -= 1;
@@ -112,13 +123,11 @@ int readColumn(int row, int column){
     return -1;
 }
 
-
+// A function that verifies if a certain column can be occupied
 int verifyColumnLegibility(char tic_tac_toe_board[3][3], int column){
     int first_row[3] = {1,2,3};
     int second_row[3] = {4,5,6};
     int third_row[3] = {7,8,9};
-
-    // printf("\nFrom verifyColumnLegibility() func BEFORE CONDITIONAL LOGIC ; column = %d\n", column);
 
     if (valueInArray(column, first_row, sizeof(first_row) / sizeof(int))) {
         column = readColumn(0, column);
@@ -147,6 +156,7 @@ int verifyColumnLegibility(char tic_tac_toe_board[3][3], int column){
     return -1;
 }
 
+// The main game function combining all previous functions
 void TicTacToe(){
     char tic_tac_toe_board[3][3] = {{'1','2','3'},
                                     {'4','5','6'},
@@ -187,12 +197,9 @@ void TicTacToe(){
             int column_legibility = verifyColumnLegibility(tic_tac_toe_board, column);
             if (column_legibility != -1) {
                 int row = column_legibility;
-                column = readColumn(row, column);
                 printf("Column %d played by player %c\n", column, player);
+                column = readColumn(row, column);
                 tic_tac_toe_board[row][column] = player;
-
-                player = (player == 'X') ? 'O':'X';
-                turns++;
 
                 char game_state = checkWinner(tic_tac_toe_board);
                 if (game_state != 'N') {
@@ -201,6 +208,8 @@ void TicTacToe(){
                     break;
                 }
                 else {
+                    player = (player == 'X') ? 'O':'X';
+                    turns++;
                     printTicTacToeBoard(tic_tac_toe_board);
                     printf("No winner yet, CONTINUE\n");
                 }
@@ -217,26 +226,15 @@ void TicTacToe(){
     }
 
     if (game_winner != 'N') {
-        printf("Game ended in %d turns with Player %c win !", turns, game_winner);
+        printf("Game ended in %d turns with Player %c win !\n", turns, game_winner);
     } else{
-        printf("Game ended in %d turns with a Tie.", turns);
+        printf("Game ended in %d turns with a Tie.\n", turns);
     }   
 }
 
 int main(){
-    // char tic_tac_toe_board[3][3] = {{'X','X','X'},{'O','O','O'},{'X','O','X'}};
-    int turns; 
-    char winner;
-
-    // printTicTacToeBoard(tic_tac_toe_board);
-    // printf("Winner is %c player\n",checkWinner(tic_tac_toe_board));
-
-    int tic_tac_toe_board[3][3] = {{1,2,3},
-                                    {4,5,6},
-                                    {7,8,9}
-                                    };
-    int third_row[3] = {7,8,9};
-    // valueInArray(7, third_row, 12);
+    
+    TicTacToe();
 
     return 0;
 }

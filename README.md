@@ -37,7 +37,7 @@ Below are some of the topics covered in this repository:
 Contributions are welcome! If you spot any errors or have suggestions, feel free to open an issue or submit a pull request.
 
 ## 📜 License
-This project is licensed under the [MIT License](LICENSE). Feel free to use, modify, and distribute it as per the license terms.
+This project is licensed under the [Unlicensed License](LICENSE). Feel free to use, modify, and distribute it as per the license terms.
 
 ## 🌟 Acknowledgments
 Special thanks to the creators of the resources and guides that helped me learn C programming; Bro code, GeeksForGeeks, stackoverflow...
